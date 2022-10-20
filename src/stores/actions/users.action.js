@@ -1,0 +1,66 @@
+import axios from "axios";
+
+import { REACT_APP_SERVER_URL } from "@env";
+
+import {
+  GET_ALL_USERS,
+  USERS_LOADING,
+  USERS_SUCCESS,
+  USERS_ERROR,
+  USERS_CLEAR_RESPONSE,
+  REGISTER_USER,
+  SUBMIT_REGISTER,
+} from "../types/users.type";
+
+const setLoading = () => (dispatch) => {
+  dispatch({
+    type: USERS_LOADING,
+  });
+};
+
+export const getAllUsers = () => async (dispatch) => {
+  setLoading()(dispatch);
+
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const res = await axios.get(`${REACT_APP_SERVER_URL}/api/users`, config);
+
+    console.log(res.data);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const submitRegister = (data) => async (dispatch) => {
+  setLoading()(dispatch);
+
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+
+    const res = await axios.post(
+      `${REACT_APP_SERVER_URL}/api/users/register`,
+      data,
+      config
+    );
+
+    console.log(res.data);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const registerUser = (data) => (dispatch) => {
+  dispatch({
+    type: REGISTER_USER,
+    payload: data,
+  });
+};
