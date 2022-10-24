@@ -1,7 +1,7 @@
 import { View, TouchableOpacity, Text, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { EMERGENCY_TYPES } from '../constants/emergency-types';
 
@@ -15,6 +15,7 @@ import {
   submitEmergency,
   emergenciesClearResponse,
 } from '../stores/actions/emergencies.action';
+import { logoutUser } from '../stores/actions/auth.action';
 
 const ResidentScreen = ({
   navigation,
@@ -23,6 +24,7 @@ const ResidentScreen = ({
   emergenciesState: { success: emergenciesSuccess, error: emergenciesError },
   submitEmergency,
   emergenciesClearResponse,
+  logoutUser,
 }) => {
   const handleEmergency = (emergencyTypeID) => {
     const { latitude, longitude } = location;
@@ -33,6 +35,16 @@ const ResidentScreen = ({
       longitude,
     });
   };
+
+  const handleLogout = () => {
+    logoutUser();
+  };
+
+  useEffect(() => {
+    if (!auth) {
+      navigation.navigate('Login');
+    }
+  }, [auth]);
 
   useEffect(() => {
     if (emergenciesSuccess) {
@@ -56,7 +68,10 @@ const ResidentScreen = ({
   }, [emergenciesSuccess, emergenciesError]);
 
   return (
-    <Main headerTitle={`Hello ${auth.first_name} ${auth.last_name}!`}>
+    <Main
+      headerTitle={`Hello ${auth?.first_name} ${auth?.last_name}!`}
+      logout={() => handleLogout()}
+    >
       <View style={{ marginBottom: 30 }}>
         <Map height={300} />
       </View>
@@ -106,6 +121,7 @@ ResidentScreen.propTypes = {
   emergenciesState: PropTypes.object.isRequired,
   submitEmergency: PropTypes.func.isRequired,
   emergenciesClearResponse: PropTypes.func.isRequired,
+  logoutUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -117,4 +133,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   submitEmergency,
   emergenciesClearResponse,
+  logoutUser,
 })(ResidentScreen);

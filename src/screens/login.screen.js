@@ -70,6 +70,8 @@ const LoginScreen = ({
       ...formInput,
       user_type_ids: [USER_TYPES.RESIDENT, USER_TYPES.RESPONDER],
     });
+
+    setFormInput(initialFormInput);
   };
 
   const handleRegister = () => {

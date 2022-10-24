@@ -10,6 +10,7 @@ const Main = ({
   children,
   isShowBackgroundImage = false,
   headerTitle = '',
+  logout,
 }) => {
   const [contentBottom, setContentBottom] = useState(0);
 
@@ -32,6 +33,7 @@ const Main = ({
         {headerTitle && (
           <Appbar.Header mode='center-aligned' statusBarHeight={0}>
             <Appbar.Content title={headerTitle} />
+            <Appbar.Action icon='logout' onPress={() => logout()} />
           </Appbar.Header>
         )}
         {children}

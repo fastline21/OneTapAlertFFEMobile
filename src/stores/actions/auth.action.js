@@ -9,6 +9,7 @@ import {
   AUTH_CLEAR_RESPONSE,
   AUTH_USER,
   LOGIN_USER,
+  LOGOUT_USER,
 } from '../types/auth.type';
 
 import { setToken } from '../../utilities/token';
@@ -87,5 +88,11 @@ export const setAuthError = (data) => (dispatch) => {
   dispatch({
     type: AUTH_ERROR,
     payload: { message: data },
+  });
+};
+
+export const logoutUser = () => (dispatch) => {
+  dispatch({
+    type: LOGOUT_USER,
   });
 };

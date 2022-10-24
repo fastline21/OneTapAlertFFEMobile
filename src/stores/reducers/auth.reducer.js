@@ -5,9 +5,10 @@ import {
   AUTH_CLEAR_RESPONSE,
   AUTH_USER,
   LOGIN_USER,
+  LOGOUT_USER,
 } from '../types/auth.type';
 
-import { storeToken } from '../../utilities/token';
+import { storeToken, removeToken } from '../../utilities/token';
 
 const initialState = {
   auth: null,
@@ -57,6 +58,13 @@ export default (state = initialState, action) => {
         success: false,
         error: false,
         message: null,
+      };
+    case LOGOUT_USER:
+      removeToken('auth_token');
+
+      return {
+        ...state,
+        auth: null,
       };
     default:
       return state;
