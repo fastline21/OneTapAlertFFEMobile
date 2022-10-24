@@ -66,7 +66,10 @@ const LoginScreen = ({
       return;
     }
 
-    loginUser(formInput);
+    loginUser({
+      ...formInput,
+      user_type_ids: [USER_TYPES.RESIDENT, USER_TYPES.RESPONDER],
+    });
   };
 
   const handleRegister = () => {
