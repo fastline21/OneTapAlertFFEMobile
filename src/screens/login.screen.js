@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { USER_TYPES } from '../constants/user-types';
 
 import Main from '../containers/main.screen';
+import Loading from '../containers/loading.screen';
 
 import logoStyle from '../styles/logo.style';
 import inputTextStyle from '../styles/input-text.style';
@@ -81,18 +82,19 @@ const LoginScreen = ({
     }
 
     if (authError) {
-      Alert.alert('Error', authMessage);
+      if (authMessage === 'Entry Not Found') {
+        Alert.alert('Error', 'User does not exist');
+      } else {
+        Alert.alert('Error', authMessage);
+      }
+
       authClearResponse();
       removeToken('auth_token');
     }
   }, [authSuccess, authError, authMessage, auth]);
 
   if (authLoading) {
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    );
+    return <Loading />;
   }
 
   return (
