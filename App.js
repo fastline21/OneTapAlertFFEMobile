@@ -11,6 +11,7 @@ import HomeScreen from './src/screens/home.screen';
 import RegisterScreen from './src/screens/register.screen';
 import LoginScreen from './src/screens/login.screen';
 import ResidentScreen from './src/screens/resident.screen';
+import EmergencyProofScreen from './src/screens/emergency-proof.screen';
 
 const App = () => {
   return (
@@ -33,6 +34,10 @@ const App = () => {
               options={{ title: 'Register User' }}
             />
             <Stack.Screen name='Resident' component={ResidentScreen} />
+            <Stack.Screen
+              name='EmergencyProof'
+              component={EmergencyProofScreen}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </PaperProvider>

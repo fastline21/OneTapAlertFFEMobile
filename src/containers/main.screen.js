@@ -11,6 +11,8 @@ const Main = ({
   isShowBackgroundImage = false,
   headerTitle = '',
   logout,
+  isBackAction = false,
+  backAction,
 }) => {
   const [contentBottom, setContentBottom] = useState(0);
 
@@ -31,7 +33,16 @@ const Main = ({
         contentInset={{ bottom: contentBottom }}
       >
         {headerTitle && (
-          <Appbar.Header mode='center-aligned' statusBarHeight={0}>
+          <Appbar.Header statusBarHeight={0}>
+            {isBackAction ? (
+              <Appbar.BackAction onPress={() => backAction()} />
+            ) : (
+              <Appbar.Action
+                icon='account-circle'
+                onPress={() => alert('User account')}
+              />
+            )}
+
             <Appbar.Content title={headerTitle} />
             <Appbar.Action icon='logout' onPress={() => logout()} />
           </Appbar.Header>

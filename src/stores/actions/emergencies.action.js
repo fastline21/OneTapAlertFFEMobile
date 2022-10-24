@@ -6,6 +6,7 @@ import {
   EMERGENCIES_ERROR,
   EMERGENCIES_CLEAR_RESPONSE,
   SUBMIT_EMERGENCY,
+  GET_EMERGENCY,
 } from '../types/emergencies.type';
 
 import { REACT_APP_SERVER_URL } from '@env';
@@ -44,6 +45,10 @@ export const submitEmergency = (data) => async (dispatch) => {
 
     dispatch({
       type: EMERGENCIES_SUCCESS,
+    });
+
+    dispatch({
+      type: GET_EMERGENCY,
       payload: res.data,
     });
   } catch (error) {

@@ -1,0 +1,5 @@
+const EMERGENCY_CATEGORIES = {
+  IMAGE: 1,
+};
+
+export { EMERGENCY_CATEGORIES };

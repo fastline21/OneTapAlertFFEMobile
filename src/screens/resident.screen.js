@@ -21,11 +21,21 @@ const ResidentScreen = ({
   navigation,
   authState: { auth },
   locationState: { location },
-  emergenciesState: { success: emergenciesSuccess, error: emergenciesError },
+  emergenciesState: {
+    emergency,
+    success: emergenciesSuccess,
+    error: emergenciesError,
+  },
   submitEmergency,
   emergenciesClearResponse,
   logoutUser,
 }) => {
+  useEffect(() => {
+    if (!auth) {
+      navigation.navigate('Login');
+    }
+  }, [auth]);
+
   const handleEmergency = (emergencyTypeID) => {
     const { latitude, longitude } = location;
     submitEmergency({
@@ -40,11 +50,9 @@ const ResidentScreen = ({
     logoutUser();
   };
 
-  useEffect(() => {
-    if (!auth) {
-      navigation.navigate('Login');
-    }
-  }, [auth]);
+  const handleEmergencyProof = () => {
+    navigation.navigate('EmergencyProof');
+  };
 
   useEffect(() => {
     if (emergenciesSuccess) {
@@ -54,12 +62,11 @@ const ResidentScreen = ({
         [
           {
             text: 'Yes',
-            onPress: () => alert('yes'),
+            onPress: () => handleEmergencyProof(),
           },
           {
             text: 'No',
             style: 'cancel',
-            onPress: () => alert('no'),
           },
         ]
       );

@@ -5,6 +5,7 @@ import barangaysReducer from './barangays.reducer';
 import authReducer from './auth.reducer';
 import locationReducer from './location.reducer';
 import emergenciesReducer from './emergencies.reducer';
+import emergencyProofsReducer from './emergency-proofs.reducer';
 
 export default combineReducers({
   usersState: usersReducer,
@@ -12,4 +13,5 @@ export default combineReducers({
   authState: authReducer,
   locationState: locationReducer,
   emergenciesState: emergenciesReducer,
+  emergencyProofsState: emergencyProofsReducer,
 });
