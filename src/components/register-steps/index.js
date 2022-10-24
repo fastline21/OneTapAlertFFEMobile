@@ -1,10 +1,10 @@
-import Step1 from "./step-1";
-import Step2 from "./step-2";
-import Step3 from "./step-3";
-import Step4 from "./step-4";
-import Step5 from "./step-5";
-import Step6 from "./step-6";
-import Step7 from "./step-7";
+import Step1 from './step-1';
+import Step2 from './step-2';
+import Step3 from './step-3';
+import Step4 from './step-4';
+import Step5 from './step-5';
+import Step6 from './step-6';
+import Step7 from './step-7';
 
 const RegisterSteps = ({
   step,
@@ -15,6 +15,7 @@ const RegisterSteps = ({
   barangays,
   submit,
   registerUser,
+  error,
 }) => {
   switch (step) {
     case 1:
@@ -24,6 +25,7 @@ const RegisterSteps = ({
           previousStep={() => previous()}
           registerStep={(data) => register(data)}
           barangays={barangays}
+          errorStep={(data) => error(data)}
         />
       );
     case 2:
@@ -33,6 +35,7 @@ const RegisterSteps = ({
           previousStep={() => previous()}
           registerStep={(data) => register(data)}
           barangays={barangays}
+          errorStep={(data) => error(data)}
         />
       );
     case 3:
@@ -41,6 +44,7 @@ const RegisterSteps = ({
           nextStep={() => next()}
           previousStep={() => previous()}
           registerStep={(data) => register(data)}
+          errorStep={(data) => error(data)}
         />
       );
     case 4:
@@ -49,6 +53,7 @@ const RegisterSteps = ({
           nextStep={() => next()}
           previousStep={() => previous()}
           registerStep={(data) => register(data)}
+          errorStep={(data) => error(data)}
         />
       );
     case 5:
@@ -57,6 +62,7 @@ const RegisterSteps = ({
           nextStep={() => next()}
           previousStep={() => previous()}
           registerStep={(data) => register(data)}
+          errorStep={(data) => error(data)}
         />
       );
     case 6:
@@ -66,6 +72,7 @@ const RegisterSteps = ({
           previousStep={() => previous()}
           submitRegister={(data) => submit(data)}
           registerUser={registerUser}
+          errorStep={(data) => error(data)}
         />
       );
     default:
@@ -74,6 +81,7 @@ const RegisterSteps = ({
           nextStep={() => next()}
           cancelStep={() => cancel()}
           registerStep={(data) => register(data)}
+          errorStep={(data) => error(data)}
         />
       );
   }

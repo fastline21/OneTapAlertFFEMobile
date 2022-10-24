@@ -1,13 +1,18 @@
-import { View } from "react-native";
-import { Button } from "react-native-paper";
-import { useState } from "react";
+import { View } from 'react-native';
+import { Button } from 'react-native-paper';
+import { useState } from 'react';
 
-import CameraView from "../camera";
+import CameraView from '../camera';
 
-const Step5 = ({ nextStep, previousStep, registerStep }) => {
+const Step5 = ({ nextStep, previousStep, registerStep, errorStep }) => {
   const [imageURI, setImageURI] = useState(null);
 
   const handleNext = () => {
+    if (!imageURI) {
+      errorStep('Please fill out all required fields');
+      return;
+    }
+
     registerStep({ capturedImageBackID: imageURI });
     nextStep();
   };
@@ -29,19 +34,19 @@ const Step5 = ({ nextStep, previousStep, registerStep }) => {
       />
       <View
         style={{
-          flexDirection: "row",
-          flexWrap: "wrap",
-          justifyContent: "center",
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
           marginVertical: 20,
         }}
       >
         <View style={{ marginHorizontal: 10 }}>
-          <Button onPress={handlePrevious} mode="contained">
+          <Button onPress={handlePrevious} mode='contained'>
             Previous
           </Button>
         </View>
         <View style={{ marginHorizontal: 10 }}>
-          <Button onPress={handleNext} mode="contained">
+          <Button onPress={handleNext} mode='contained'>
             Next
           </Button>
         </View>

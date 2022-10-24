@@ -1,58 +1,70 @@
-import { View, Text, Platform } from "react-native";
-import { useEffect, useState } from "react";
-import StepIndicator from "react-native-step-indicator";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
+import { View, Text, Platform, Alert } from 'react-native';
+import { useEffect, useState } from 'react';
+import StepIndicator from 'react-native-step-indicator';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import stepIndicatorStyle from "../styles/step-indicator.style";
+import stepIndicatorStyle from '../styles/step-indicator.style';
 
-import { registerUser, submitRegister } from "../stores/actions/users.action";
-import { getAllBarangays } from "../stores/actions/barangays.action";
+import {
+  registerUser,
+  submitRegister,
+  usersClearResponse,
+} from '../stores/actions/users.action';
+import { getAllBarangays } from '../stores/actions/barangays.action';
 
-import Main from "../containers/main.screen";
+import Main from '../containers/main.screen';
+import Loading from '../containers/loading.screen';
 
-import RegisterSteps from "../components/register-steps";
+import RegisterSteps from '../components/register-steps';
 
 const RegisterScreen = ({
   navigation,
-  usersState: { registerUser: register },
+  usersState: {
+    registerUser: register,
+    error: usersError,
+    message: usersMessage,
+    success: usersSuccess,
+    loading: usersLoading,
+  },
   barangaysState: { barangays },
   registerUser,
   getAllBarangays,
   submitRegister,
+  usersClearResponse,
 }) => {
   const labels = [
-    "Personal Info",
-    "Contact Info",
-    "Contact Person",
-    "Front ID",
-    "Back ID",
-    "Selfie",
-    "Review",
+    'Personal Info',
+    'Contact Info',
+    'Contact Person',
+    'Front ID',
+    'Back ID',
+    'Selfie',
+    'Review',
   ];
   const customStyles = {
     stepIndicatorSize: 25,
     currentStepIndicatorSize: 30,
     separatorStrokeWidth: 2,
     currentStepStrokeWidth: 3,
-    stepStrokeCurrentColor: "#fe7013",
+    stepStrokeCurrentColor: '#fe7013',
     stepStrokeWidth: 3,
-    stepStrokeFinishedColor: "#fe7013",
-    stepStrokeUnFinishedColor: "#aaaaaa",
-    separatorFinishedColor: "#fe7013",
-    separatorUnFinishedColor: "#aaaaaa",
-    stepIndicatorFinishedColor: "#fe7013",
-    stepIndicatorUnFinishedColor: "#ffffff",
-    stepIndicatorCurrentColor: "#ffffff",
+    stepStrokeFinishedColor: '#fe7013',
+    stepStrokeUnFinishedColor: '#aaaaaa',
+    separatorFinishedColor: '#fe7013',
+    separatorUnFinishedColor: '#aaaaaa',
+    stepIndicatorFinishedColor: '#fe7013',
+    stepIndicatorUnFinishedColor: '#ffffff',
+    stepIndicatorCurrentColor: '#ffffff',
     stepIndicatorLabelFontSize: 13,
     currentStepIndicatorLabelFontSize: 13,
-    stepIndicatorLabelCurrentColor: "#fe7013",
-    stepIndicatorLabelFinishedColor: "#ffffff",
-    stepIndicatorLabelUnFinishedColor: "#aaaaaa",
-    labelColor: "#999999",
-    labelSize: Platform.OS === "ios" ? 13 : 12,
-    labelAlign: "flex-start",
-    currentStepLabelColor: "#fe7013",
+    stepIndicatorLabelCurrentColor: '#fe7013',
+    stepIndicatorLabelFinishedColor: '#ffffff',
+    stepIndicatorLabelUnFinishedColor: '#aaaaaa',
+    labelColor: '#999999',
+    labelSize: Platform.OS === 'ios' ? 13 : 12,
+    labelAlign: 'flex-start',
+    currentStepLabelColor: '#fe7013',
   };
   const [currentPosition, setCurrentPosition] = useState(0);
 
@@ -76,9 +88,30 @@ const RegisterScreen = ({
     submitRegister(data);
   };
 
+  const handleError = (data) => {
+    Alert.alert('Error', data);
+  };
+
   useEffect(() => {
     getAllBarangays();
   }, []);
+
+  useEffect(() => {
+    if (usersError) {
+      Alert.alert('Error', usersMessage);
+      usersClearResponse();
+    }
+
+    if (usersSuccess) {
+      Alert.alert('Success', usersMessage);
+      usersClearResponse();
+      navigation.navigate('Login');
+    }
+  }, [usersSuccess, usersError, usersMessage]);
+
+  if (usersLoading) {
+    return <Loading />;
+  }
 
   return (
     <Main>
@@ -100,6 +133,7 @@ const RegisterScreen = ({
           barangays={barangays}
           submit={(data) => handleSubmit(data)}
           registerUser={register}
+          error={(data) => handleError(data)}
         />
       </View>
       {/* <View>
@@ -115,6 +149,7 @@ RegisterScreen.propTypes = {
   registerUser: PropTypes.func.isRequired,
   getAllBarangays: PropTypes.func.isRequired,
   submitRegister: PropTypes.func.isRequired,
+  usersClearResponse: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -126,4 +161,5 @@ export default connect(mapStateToProps, {
   registerUser,
   getAllBarangays,
   submitRegister,
+  usersClearResponse,
 })(RegisterScreen);

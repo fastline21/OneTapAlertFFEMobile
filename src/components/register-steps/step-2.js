@@ -1,32 +1,39 @@
-import { View, Text } from "react-native";
-import { TextInput, Button } from "react-native-paper";
-import { useState, useRef } from "react";
-import { Picker } from "@react-native-picker/picker";
+import { View, Text } from 'react-native';
+import { TextInput, Button } from 'react-native-paper';
+import { useState } from 'react';
+import { Picker } from '@react-native-picker/picker';
 
-import inputTextStyle from "../../styles/input-text.style";
+import inputTextStyle from '../../styles/input-text.style';
 
-const Step2 = ({ nextStep, previousStep, registerStep, barangays }) => {
+const Step2 = ({
+  nextStep,
+  previousStep,
+  registerStep,
+  barangays,
+  errorStep,
+}) => {
   const initialFormInput = {
     contactNo: null,
     address: null,
-    barangayID: 0,
+    barangayID: 1,
     city: null,
     postalCode: null,
   };
 
   const [formInput, setFormInput] = useState(initialFormInput);
 
-  const contactNoRef = useRef();
-  const addressRef = useRef();
-  const barangayIDRef = useRef();
-  const cityRef = useRef();
-  const postalCodeRef = useRef();
-
   const handleChangeInput = (name, value) => {
     setFormInput({ ...formInput, [name]: value });
   };
 
   const handleNext = () => {
+    const { contactNo, address, barangayID, city, postalCode } = formInput;
+
+    if (!contactNo || !address || !barangayID || !city || !postalCode) {
+      errorStep('Please fill out all required fields');
+      return;
+    }
+
     registerStep(formInput);
     nextStep();
   };
@@ -39,25 +46,21 @@ const Step2 = ({ nextStep, previousStep, registerStep, barangays }) => {
     <>
       <View style={inputTextStyle.outer}>
         <TextInput
-          label="Contact No. (+63)"
+          label='Contact No. (+63)'
           value={formInput.contactNo}
-          onChangeText={(value) => handleChangeInput("contactNo", value)}
-          mode="outlined"
+          onChangeText={(value) => handleChangeInput('contactNo', value)}
+          mode='outlined'
           maxLength={10}
-          returnKeyType="next"
-          ref={contactNoRef}
-          onSubmitEditing={() => addressRef.current.focus()}
-          keyboardType="numeric"
+          keyboardType='numeric'
         />
       </View>
       <View style={inputTextStyle.outer}>
         <TextInput
-          label="Address"
+          label='Address'
           value={formInput.address}
-          onChangeText={(value) => handleChangeInput("address", value)}
-          mode="outlined"
+          onChangeText={(value) => handleChangeInput('address', value)}
+          mode='outlined'
           maxLength={100}
-          ref={addressRef}
           multiline={true}
           numberOfLines={4}
         />
@@ -67,11 +70,9 @@ const Step2 = ({ nextStep, previousStep, registerStep, barangays }) => {
         <Picker
           selectedValue={formInput.barangayID}
           onValueChange={(itemValue, itemIndex) =>
-            handleChangeInput("barangayID", itemValue)
+            handleChangeInput('barangayID', itemValue)
           }
-          ref={barangayIDRef}
         >
-          <Picker.Item key={0} label="Default" value={0} />
           {barangays?.map((element, index) => (
             <Picker.Item key={index} label={element.name} value={element.id} />
           ))}
@@ -79,42 +80,38 @@ const Step2 = ({ nextStep, previousStep, registerStep, barangays }) => {
       </View>
       <View style={inputTextStyle.outer}>
         <TextInput
-          label="City"
+          label='City'
           value={formInput.city}
-          onChangeText={(value) => handleChangeInput("city", value)}
-          mode="outlined"
+          onChangeText={(value) => handleChangeInput('city', value)}
+          mode='outlined'
           maxLength={50}
-          returnKeyType="next"
-          ref={cityRef}
-          onSubmitEditing={() => postalCodeRef.current.focus()}
         />
       </View>
       <View style={inputTextStyle.outer}>
         <TextInput
-          label="Postal Code"
+          label='Postal Code'
           value={formInput.postalCode}
-          onChangeText={(value) => handleChangeInput("postalCode", value)}
-          mode="outlined"
+          onChangeText={(value) => handleChangeInput('postalCode', value)}
+          mode='outlined'
           maxLength={4}
-          ref={postalCodeRef}
-          keyboardType="numeric"
+          keyboardType='numeric'
         />
       </View>
       <View
         style={{
-          flexDirection: "row",
-          flexWrap: "wrap",
-          justifyContent: "center",
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
           marginVertical: 20,
         }}
       >
         <View style={{ marginHorizontal: 10 }}>
-          <Button onPress={handlePrevious} mode="contained">
+          <Button onPress={handlePrevious} mode='contained'>
             Previous
           </Button>
         </View>
         <View style={{ marginHorizontal: 10 }}>
-          <Button onPress={handleNext} mode="contained">
+          <Button onPress={handleNext} mode='contained'>
             Next
           </Button>
         </View>

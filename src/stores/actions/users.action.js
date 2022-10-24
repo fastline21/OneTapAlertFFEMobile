@@ -1,6 +1,6 @@
-import axios from "axios";
+import axios from 'axios';
 
-import { REACT_APP_SERVER_URL } from "@env";
+import { REACT_APP_SERVER_URL } from '@env';
 
 import {
   GET_ALL_USERS,
@@ -10,7 +10,7 @@ import {
   USERS_CLEAR_RESPONSE,
   REGISTER_USER,
   SUBMIT_REGISTER,
-} from "../types/users.type";
+} from '../types/users.type';
 
 const setLoading = () => (dispatch) => {
   dispatch({
@@ -24,7 +24,7 @@ export const getAllUsers = () => async (dispatch) => {
   try {
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     };
 
@@ -42,7 +42,7 @@ export const submitRegister = (data) => async (dispatch) => {
   try {
     const config = {
       headers: {
-        "Content-Type": "multipart/form-data",
+        'Content-Type': 'multipart/form-data',
       },
     };
 
@@ -52,9 +52,16 @@ export const submitRegister = (data) => async (dispatch) => {
       config
     );
 
-    console.log(res.data);
+    dispatch({
+      type: USERS_SUCCESS,
+      payload: res.data,
+    });
   } catch (error) {
     console.error(error);
+    dispatch({
+      type: USERS_ERROR,
+      payload: error.response.data,
+    });
   }
 };
 
@@ -62,5 +69,20 @@ export const registerUser = (data) => (dispatch) => {
   dispatch({
     type: REGISTER_USER,
     payload: data,
+  });
+};
+
+export const usersClearResponse = () => (dispatch) => {
+  dispatch({
+    type: USERS_CLEAR_RESPONSE,
+  });
+};
+
+export const setUsersError = (data) => (dispatch) => {
+  dispatch({
+    type: USERS_ERROR,
+    payload: {
+      message: data,
+    },
   });
 };

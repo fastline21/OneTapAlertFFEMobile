@@ -1,10 +1,10 @@
-import { View } from "react-native";
-import { TextInput, Button } from "react-native-paper";
-import { useState } from "react";
+import { View } from 'react-native';
+import { TextInput, Button } from 'react-native-paper';
+import { useState } from 'react';
 
-import inputTextStyle from "../../styles/input-text.style";
+import inputTextStyle from '../../styles/input-text.style';
 
-const Step3 = ({ nextStep, previousStep, registerStep }) => {
+const Step3 = ({ nextStep, previousStep, registerStep, errorStep }) => {
   const initialFormInput = {
     firstName: null,
     lastName: null,
@@ -19,7 +19,21 @@ const Step3 = ({ nextStep, previousStep, registerStep }) => {
   };
 
   const handleNext = () => {
-    registerStep({ contact_person: formInput });
+    const { firstName, lastName, contactNo, emailAddress } = formInput;
+
+    if (!firstName || !lastName || !contactNo || !emailAddress) {
+      errorStep('Please fill out all required fields');
+      return;
+    }
+
+    registerStep({
+      contactPerson: {
+        first_name: formInput.firstName,
+        last_name: formInput.lastName,
+        contact_no: formInput.contactNo,
+        email_address: formInput.emailAddress,
+      },
+    });
     nextStep();
   };
 
@@ -31,57 +45,57 @@ const Step3 = ({ nextStep, previousStep, registerStep }) => {
     <>
       <View style={inputTextStyle.outer}>
         <TextInput
-          label="First Name"
+          label='First Name'
           value={formInput.firstName}
-          onChangeText={(value) => handleChangeInput("firstName", value)}
-          mode="outlined"
+          onChangeText={(value) => handleChangeInput('firstName', value)}
+          mode='outlined'
           maxLength={50}
         />
       </View>
       <View style={inputTextStyle.outer}>
         <TextInput
-          label="Last Name"
+          label='Last Name'
           value={formInput.lastName}
-          onChangeText={(value) => handleChangeInput("lastName", value)}
-          mode="outlined"
+          onChangeText={(value) => handleChangeInput('lastName', value)}
+          mode='outlined'
           maxLength={50}
         />
       </View>
       <View style={inputTextStyle.outer}>
         <TextInput
-          label="Contact No. (+63)"
+          label='Contact No. (+63)'
           value={formInput.contactNo}
-          onChangeText={(value) => handleChangeInput("contactNo", value)}
-          mode="outlined"
+          onChangeText={(value) => handleChangeInput('contactNo', value)}
+          mode='outlined'
           maxLength={10}
-          keyboardType="numeric"
+          keyboardType='numeric'
         />
       </View>
       <View style={inputTextStyle.outer}>
         <TextInput
-          label="Email Address"
+          label='Email Address'
           value={formInput.emailAddress}
-          onChangeText={(value) => handleChangeInput("emailAddress", value)}
-          mode="outlined"
+          onChangeText={(value) => handleChangeInput('emailAddress', value)}
+          mode='outlined'
           maxLength={100}
-          autoCapitalize="none"
+          autoCapitalize='none'
         />
       </View>
       <View
         style={{
-          flexDirection: "row",
-          flexWrap: "wrap",
-          justifyContent: "center",
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
           marginVertical: 20,
         }}
       >
         <View style={{ marginHorizontal: 10 }}>
-          <Button onPress={handlePrevious} mode="contained">
+          <Button onPress={handlePrevious} mode='contained'>
             Previous
           </Button>
         </View>
         <View style={{ marginHorizontal: 10 }}>
-          <Button onPress={handleNext} mode="contained">
+          <Button onPress={handleNext} mode='contained'>
             Next
           </Button>
         </View>

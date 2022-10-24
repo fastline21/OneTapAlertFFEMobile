@@ -1,62 +1,62 @@
 import {
-  GET_ALL_USERS,
-  REGISTER_USER,
-  USERS_SUCCESS,
-  USERS_ERROR,
-  USERS_CLEAR_RESPONSE,
-  USERS_LOADING,
-} from '../types/users.type';
+  AUTH_LOADING,
+  AUTH_SUCCESS,
+  AUTH_ERROR,
+  AUTH_CLEAR_RESPONSE,
+  AUTH_USER,
+  LOGIN_USER,
+} from '../types/auth.type';
+
+import { storeToken } from '../../utilities/token';
 
 const initialState = {
-  users: null,
-  user: null,
-  registerUser: null,
-  error: false,
-  success: false,
+  auth: null,
   loading: false,
+  success: false,
+  error: false,
   message: null,
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (state = initialState, action) => {
   switch (action.type) {
-    case GET_ALL_USERS:
+    case LOGIN_USER:
+      storeToken('auth_token', action.payload.token);
+
+      return state;
+    case AUTH_USER:
       return {
         ...state,
-        users: action.payload,
         loading: false,
+        auth: action.payload,
+        success: true,
       };
-    case REGISTER_USER:
+    case AUTH_LOADING:
       return {
         ...state,
-        registerUser: { ...state.registerUser, ...action.payload },
+        loading: true,
       };
-    case USERS_SUCCESS:
+    case AUTH_SUCCESS:
       return {
         ...state,
         loading: false,
         success: true,
         message: action.payload.message,
       };
-    case USERS_ERROR:
+    case AUTH_ERROR:
       return {
         ...state,
         loading: false,
         error: true,
         message: action.payload.message,
       };
-    case USERS_CLEAR_RESPONSE:
+    case AUTH_CLEAR_RESPONSE:
       return {
         ...state,
         loading: false,
         success: false,
         error: false,
         message: null,
-      };
-    case USERS_LOADING:
-      return {
-        ...state,
-        loading: true,
       };
     default:
       return state;
