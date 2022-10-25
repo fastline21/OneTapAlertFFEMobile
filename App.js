@@ -12,6 +12,12 @@ import RegisterScreen from './src/screens/register.screen';
 import LoginScreen from './src/screens/login.screen';
 import ResidentScreen from './src/screens/resident.screen';
 import EmergencyProofScreen from './src/screens/emergency-proof.screen';
+import ResponderScreen from './src/screens/responder.screen';
+import ViewEmergencyScreen from './src/screens/view-emergency.screen';
+import MapScreen from './src/screens/map.screen';
+import IncidentReportScreen from './src/screens/incident-report.screen';
+import RequestBackupScreen from './src/screens/request-backup.screen';
+import ProfileScreen from './src/screens/profile.screen';
 
 const App = () => {
   return (
@@ -38,6 +44,21 @@ const App = () => {
               name='EmergencyProof'
               component={EmergencyProofScreen}
             />
+            <Stack.Screen name='Responder' component={ResponderScreen} />
+            <Stack.Screen
+              name='ViewEmergency'
+              component={ViewEmergencyScreen}
+            />
+            <Stack.Screen name='Map' component={MapScreen} />
+            <Stack.Screen
+              name='IncidentReport'
+              component={IncidentReportScreen}
+            />
+            <Stack.Screen
+              name='RequestBackup'
+              component={RequestBackupScreen}
+            />
+            <Stack.Screen name='Profile' component={ProfileScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </PaperProvider>

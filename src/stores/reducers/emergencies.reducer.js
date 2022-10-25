@@ -5,9 +5,12 @@ import {
   EMERGENCIES_CLEAR_RESPONSE,
   SUBMIT_EMERGENCY,
   GET_EMERGENCY,
+  GET_ALL_EMERGENCIES,
+  CLEAR_EMERGENCY,
 } from '../types/emergencies.type';
 
 const initialState = {
+  emergencies: null,
   emergency: null,
   loading: false,
   success: false,
@@ -50,6 +53,17 @@ export default (state = initialState, action) => {
         ...state,
         loading: false,
         emergency: action.payload,
+      };
+    case GET_ALL_EMERGENCIES:
+      return {
+        ...state,
+        loading: false,
+        emergencies: action.payload,
+      };
+    case CLEAR_EMERGENCY:
+      return {
+        ...state,
+        emergency: null,
       };
     default:
       return state;

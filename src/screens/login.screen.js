@@ -82,7 +82,12 @@ const LoginScreen = ({
     if (authSuccess) {
       if (auth.user_type_id === USER_TYPES.RESIDENT) {
         navigation.navigate('Resident');
+      } else if (auth.user_type_id === USER_TYPES.RESPONDER) {
+        navigation.navigate('Responder');
+      } else {
+        Alert.alert('Error', 'Unauthorized person is not allowed here');
       }
+
       authClearResponse();
     }
 

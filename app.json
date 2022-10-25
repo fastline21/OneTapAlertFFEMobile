@@ -24,7 +24,12 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.altateknolohiya.onetapalertffemobile"
+      "package": "com.altateknolohiya.onetapalertffemobile",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBY02OUe-MycQkDSpFvc3w9Qrab5mA7uz4"
+        }
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"

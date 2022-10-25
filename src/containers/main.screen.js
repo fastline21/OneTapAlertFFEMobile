@@ -13,6 +13,7 @@ const Main = ({
   logout,
   isBackAction = false,
   backAction,
+  profileAction,
 }) => {
   const [contentBottom, setContentBottom] = useState(0);
 
@@ -39,7 +40,7 @@ const Main = ({
             ) : (
               <Appbar.Action
                 icon='account-circle'
-                onPress={() => alert('User account')}
+                onPress={() => profileAction()}
               />
             )}
 

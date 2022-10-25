@@ -6,6 +6,7 @@ import authReducer from './auth.reducer';
 import locationReducer from './location.reducer';
 import emergenciesReducer from './emergencies.reducer';
 import emergencyProofsReducer from './emergency-proofs.reducer';
+import incidentReportsReducer from './incident-reports.reducer';
 
 export default combineReducers({
   usersState: usersReducer,
@@ -14,4 +15,5 @@ export default combineReducers({
   locationState: locationReducer,
   emergenciesState: emergenciesReducer,
   emergencyProofsState: emergencyProofsReducer,
+  incidentReportsState: incidentReportsReducer,
 });
