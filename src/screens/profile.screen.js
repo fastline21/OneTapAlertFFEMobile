@@ -9,13 +9,19 @@ import reviewPreviewImageStyle from '../styles/review-preview-image.style';
 
 import { REACT_APP_SERVER_URL } from '@env';
 
-const ProfileScreen = ({ navigation, authState: { auth } }) => {
+import { logoutUser } from '../stores/actions/auth.action';
+
+const ProfileScreen = ({ navigation, authState: { auth }, logoutUser }) => {
   const handleBackAction = () => {
     navigation.goBack();
   };
 
   const handleShowImage = (file) => {
     return `${REACT_APP_SERVER_URL}/captured-image/${file}`;
+  };
+
+  const handleLogout = () => {
+    logoutUser();
   };
 
   return (
@@ -30,7 +36,7 @@ const ProfileScreen = ({ navigation, authState: { auth } }) => {
           <Avatar.Image
             size={200}
             // source={require('../../assets/logo.png')}
-            source={{ uri: handleShowImage(auth.captured_image_selfie) }}
+            source={{ uri: handleShowImage(auth?.captured_image_selfie) }}
             style={{ backgroundColor: 'transparent' }}
           />
         </View>
@@ -48,20 +54,20 @@ const ProfileScreen = ({ navigation, authState: { auth } }) => {
         >
           <View>
             <Text variant='labelLarge'>
-              Name: {auth.first_name} {auth.middle_initial}. {auth.last_name}
+              Name: {auth?.first_name} {auth?.middle_initial}. {auth?.last_name}
             </Text>
           </View>
           <View>
-            <Text variant='labelLarge'>Contact No.: {auth.contact_no}</Text>
+            <Text variant='labelLarge'>Contact No.: {auth?.contact_no}</Text>
           </View>
           <View>
-            <Text variant='labelLarge'>Address: {auth.address}</Text>
+            <Text variant='labelLarge'>Address: {auth?.address}</Text>
           </View>
           <View>
-            <Text variant='labelLarge'>Barangay: {auth.barangay.name}</Text>
+            <Text variant='labelLarge'>Barangay: {auth?.barangay.name}</Text>
           </View>
           <View>
-            <Text variant='labelLarge'>Postal Code: {auth.zip_code}</Text>
+            <Text variant='labelLarge'>Postal Code: {auth?.zip_code}</Text>
           </View>
         </View>
         <View style={{ marginHorizontal: 20, marginBottom: 10 }}>
@@ -78,20 +84,19 @@ const ProfileScreen = ({ navigation, authState: { auth } }) => {
         >
           <View>
             <Text variant='labelLarge'>
-              Name: {auth.first_name} {auth.middle_initial}. {auth.last_name}
+              Name: {auth?.contact_person.first_name}{' '}
+              {auth?.contact_person.last_name}
             </Text>
           </View>
           <View>
-            <Text variant='labelLarge'>Contact No.: {auth.contact_no}</Text>
+            <Text variant='labelLarge'>
+              Contact No.: {auth?.contact_person.contact_no}
+            </Text>
           </View>
           <View>
-            <Text variant='labelLarge'>Address: {auth.address}</Text>
-          </View>
-          <View>
-            <Text variant='labelLarge'>Barangay: {auth.barangay.name}</Text>
-          </View>
-          <View>
-            <Text variant='labelLarge'>Postal Code: {auth.zip_code}</Text>
+            <Text variant='labelLarge'>
+              Email Address: {auth?.contact_person.email_address}
+            </Text>
           </View>
         </View>
         <View style={{ marginHorizontal: 20, marginBottom: 10 }}>
@@ -115,14 +120,14 @@ const ProfileScreen = ({ navigation, authState: { auth } }) => {
             <View style={{ marginVertical: 5 }}>
               <Text variant='labelLarge'>Front ID:</Text>
               <Image
-                source={{ uri: handleShowImage(auth.captured_image_front_id) }}
+                source={{ uri: handleShowImage(auth?.captured_image_front_id) }}
                 style={reviewPreviewImageStyle.inner}
               />
             </View>
             <View style={{ marginVertical: 5 }}>
               <Text variant='labelLarge'>Back ID:</Text>
               <Image
-                source={{ uri: handleShowImage(auth.captured_image_back_id) }}
+                source={{ uri: handleShowImage(auth?.captured_image_back_id) }}
                 style={reviewPreviewImageStyle.inner}
               />
             </View>
@@ -135,10 +140,11 @@ const ProfileScreen = ({ navigation, authState: { auth } }) => {
 
 ProfileScreen.propTypes = {
   authState: PropTypes.object.isRequired,
+  logoutUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   authState: state.authState,
 });
 
-export default connect(mapStateToProps, {})(ProfileScreen);
+export default connect(mapStateToProps, { logoutUser })(ProfileScreen);
