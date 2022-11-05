@@ -36,7 +36,7 @@ const MapScreen = ({
   const handleDone = () => {
     changeEmergencyStatus({
       emergency_id: emergency.id,
-      emergency_status_id: EMERGENCY_STATUSES.ONGOING,
+      emergency_status_id: EMERGENCY_STATUSES.RESPONDED,
     });
   };
 
