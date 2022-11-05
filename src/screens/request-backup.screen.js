@@ -10,27 +10,25 @@ import Loading from '../containers/loading.screen';
 import inputTextStyle from '../styles/input-text.style';
 
 import {
-  submitIncidentReport,
-  incidentReportsClearResponse,
-} from '../stores/actions/incident-reports.action';
+  submitRequestBackup,
+  requestBackupClearResponse,
+} from '../stores/actions/request-backup.action';
 
 const RequestBackupScreen = ({
   navigation,
-  incidentReportsState: {
-    success: incidentReportsSuccess,
-    error: incidentReportsError,
-    loading: incidentReportsLoading,
-    message: incidentReportsMessage,
+  requestBackupState: {
+    success: requestBackupSuccess,
+    error: requestBackupError,
+    loading: requestBackupLoading,
+    message: requestBackupMessage,
   },
   authState: { auth },
   emergenciesState: { emergency },
-  submitIncidentReport,
-  incidentReportsClearResponse,
+  submitRequestBackup,
+  requestBackupClearResponse,
 }) => {
   const initialFormInput = {
-    noOfDeath: 0,
-    noOfCasualties: 0,
-    noOfHouseAffected: 0,
+    description: null,
   };
   const [formInput, setFormInput] = useState(initialFormInput);
 
@@ -39,12 +37,10 @@ const RequestBackupScreen = ({
   };
 
   const handleSubmit = () => {
-    submitIncidentReport({
+    submitRequestBackup({
       user_id: auth.id,
       emergency_id: emergency.id,
-      no_of_death: formInput.noOfDeath,
-      no_of_casualties: formInput.noOfCasualties,
-      no_of_house_affected: formInput.noOfHouseAffected,
+      description: formInput.description,
     });
 
     setFormInput(initialFormInput);
@@ -55,58 +51,37 @@ const RequestBackupScreen = ({
   };
 
   useEffect(() => {
-    if (incidentReportsSuccess) {
+    if (requestBackupSuccess) {
       Alert.alert('Success', 'You successfully submit an incident report');
       navigation.navigate('Responder');
-      incidentReportsClearResponse();
+      requestBackupClearResponse();
     }
 
-    if (incidentReportsError) {
-      Alert.alert('Error', incidentReportsMessage);
-      incidentReportsClearResponse();
+    if (requestBackupError) {
+      Alert.alert('Error', requestBackupMessage);
+      requestBackupClearResponse();
     }
-  }, [incidentReportsSuccess, incidentReportsError, incidentReportsMessage]);
+  }, [requestBackupSuccess, requestBackupError, requestBackupMessage]);
 
-  if (incidentReportsLoading) {
+  if (requestBackupLoading) {
     return <Loading />;
   }
 
   return (
     <Main
       isBackAction={true}
-      headerTitle='Incident report'
+      headerTitle='Request Backup'
       backAction={() => handleBackAction()}
     >
       <View style={inputTextStyle.outer}>
         <TextInput
-          label='No of Death'
-          value={formInput.noOfDeath}
-          onChangeText={(value) => handleChangeInput('noOfDeath', value)}
+          label='Description'
+          value={formInput.description}
+          onChangeText={(value) => handleChangeInput('description', value)}
           mode='outlined'
-          maxLength={50}
-          keyboardType='numeric'
-        />
-      </View>
-      <View style={inputTextStyle.outer}>
-        <TextInput
-          label='No of Casualties'
-          value={formInput.noOfCasualties}
-          onChangeText={(value) => handleChangeInput('noOfCasualties', value)}
-          mode='outlined'
-          maxLength={50}
-          keyboardType='numeric'
-        />
-      </View>
-      <View style={inputTextStyle.outer}>
-        <TextInput
-          label='No of House Affected'
-          value={formInput.noOfHouseAffected}
-          onChangeText={(value) =>
-            handleChangeInput('noOfHouseAffected', value)
-          }
-          mode='outlined'
-          maxLength={50}
-          keyboardType='numeric'
+          maxLength={100}
+          multiline={true}
+          numberOfLines={4}
         />
       </View>
       <View
@@ -128,20 +103,20 @@ const RequestBackupScreen = ({
 };
 
 RequestBackupScreen.propTypes = {
-  incidentReportsState: PropTypes.object.isRequired,
+  requestBackupState: PropTypes.object.isRequired,
   authState: PropTypes.object.isRequired,
   emergenciesState: PropTypes.object.isRequired,
-  submitIncidentReport: PropTypes.func.isRequired,
-  incidentReportsClearResponse: PropTypes.func.isRequired,
+  submitRequestBackup: PropTypes.func.isRequired,
+  requestBackupClearResponse: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  incidentReportsState: state.incidentReportsState,
+  requestBackupState: state.requestBackupState,
   authState: state.authState,
   emergenciesState: state.emergenciesState,
 });
 
 export default connect(mapStateToProps, {
-  submitIncidentReport,
-  incidentReportsClearResponse,
+  submitRequestBackup,
+  requestBackupClearResponse,
 })(RequestBackupScreen);

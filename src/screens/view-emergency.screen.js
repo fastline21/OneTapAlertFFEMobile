@@ -28,6 +28,7 @@ const ViewEmergencyScreen = ({
     success: emergenciesSuccess,
     error: emergenciesError,
   },
+  authState: { auth },
   clearEmergency,
   changeEmergencyStatus,
   getAllEmergenciesByStatus,
@@ -51,6 +52,7 @@ const ViewEmergencyScreen = ({
     changeEmergencyStatus({
       emergency_id: emergency.id,
       emergency_status_id: EMERGENCY_STATUSES.ONGOING,
+      responder_id: auth.id,
     });
   };
 
@@ -140,6 +142,7 @@ const ViewEmergencyScreen = ({
 
 ViewEmergencyScreen.propTypes = {
   emergenciesState: PropTypes.object.isRequired,
+  authState: PropTypes.object.isRequired,
   clearEmergency: PropTypes.func.isRequired,
   changeEmergencyStatus: PropTypes.func.isRequired,
   getAllEmergenciesByStatus: PropTypes.func.isRequired,
@@ -148,6 +151,7 @@ ViewEmergencyScreen.propTypes = {
 
 const mapStateToProps = (state) => ({
   emergenciesState: state.emergenciesState,
+  authState: state.authState,
 });
 
 export default connect(mapStateToProps, {

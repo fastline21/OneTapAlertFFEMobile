@@ -18,6 +18,7 @@ import MapScreen from './src/screens/map.screen';
 import IncidentReportScreen from './src/screens/incident-report.screen';
 import RequestBackupScreen from './src/screens/request-backup.screen';
 import ProfileScreen from './src/screens/profile.screen';
+import UpgradeAccountScreen from './src/screens/upgrade-account.screen';
 
 const App = () => {
   return (
@@ -59,6 +60,10 @@ const App = () => {
               component={RequestBackupScreen}
             />
             <Stack.Screen name='Profile' component={ProfileScreen} />
+            <Stack.Screen
+              name='UpgradeAccount'
+              component={UpgradeAccountScreen}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </PaperProvider>

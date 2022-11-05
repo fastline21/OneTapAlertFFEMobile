@@ -1,5 +1,5 @@
 import { View, Image } from 'react-native';
-import { Text, Avatar } from 'react-native-paper';
+import { Text, Avatar, Button } from 'react-native-paper';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -22,6 +22,10 @@ const ProfileScreen = ({ navigation, authState: { auth }, logoutUser }) => {
 
   const handleLogout = () => {
     logoutUser();
+  };
+
+  const handleUpgradeAccount = () => {
+    navigation.navigate('UpgradeAccount');
   };
 
   return (
@@ -132,6 +136,17 @@ const ProfileScreen = ({ navigation, authState: { auth }, logoutUser }) => {
               />
             </View>
           </View>
+        </View>
+        <View
+          style={{
+            marginHorizontal: 10,
+            paddingVertical: 20,
+            paddingHorizontal: 10,
+          }}
+        >
+          <Button mode='contained' onPress={() => handleUpgradeAccount()}>
+            Upgrade
+          </Button>
         </View>
       </View>
     </Main>

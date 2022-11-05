@@ -86,3 +86,34 @@ export const setUsersError = (data) => (dispatch) => {
     },
   });
 };
+
+export const upgradeUserType = (data) => async (dispatch) => {
+  try {
+    setLoading()(dispatch);
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    const { userID, ...rest } = data;
+
+    const res = await axios.patch(
+      `${REACT_APP_SERVER_URL}/api/users/${userID}`,
+      rest,
+      config
+    );
+
+    dispatch({
+      type: USERS_SUCCESS,
+      payload: res.data,
+    });
+  } catch (error) {
+    console.error(error);
+    dispatch({
+      type: USERS_ERROR,
+      payload: error.response.data,
+    });
+  }
+};

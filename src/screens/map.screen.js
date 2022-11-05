@@ -41,7 +41,7 @@ const MapScreen = ({
   };
 
   const handleRequest = () => {
-    navigation.navigate('RequestBackups');
+    navigation.navigate('RequestBackup');
   };
 
   useEffect(() => {

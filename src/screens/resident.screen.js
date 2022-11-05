@@ -54,6 +54,10 @@ const ResidentScreen = ({
     navigation.navigate('EmergencyProof');
   };
 
+  const handleProfile = () => {
+    navigation.push('Profile');
+  };
+
   useEffect(() => {
     if (emergenciesSuccess) {
       Alert.alert(
@@ -78,6 +82,7 @@ const ResidentScreen = ({
     <Main
       headerTitle={`Hello ${auth?.first_name} ${auth?.last_name}!`}
       logout={() => handleLogout()}
+      profileAction={() => handleProfile()}
     >
       <View style={{ marginBottom: 30 }}>
         <Map height={300} />

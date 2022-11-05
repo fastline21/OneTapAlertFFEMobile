@@ -46,6 +46,10 @@ const ResponderScreen = ({
     navigation.push('Profile');
   };
 
+  const handleOnRefresh = () => {
+    getAllEmergenciesByStatus('pending');
+  };
+
   if (emergenciesLoading) {
     return <Loading />;
   }
@@ -55,10 +59,13 @@ const ResponderScreen = ({
       headerTitle={`Hello ${auth?.first_name} ${auth?.last_name}!`}
       logout={() => handleLogout()}
       profileAction={() => handleProfile()}
+      isRefresh={true}
+      getDataOnRefresh={() => handleOnRefresh()}
     >
       <View style={tableStyle.outer}>
         <DataTable style={tableStyle.inner}>
           <DataTable.Header>
+            <DataTable.Title>#</DataTable.Title>
             <DataTable.Title>Name</DataTable.Title>
             <DataTable.Title>Disaster</DataTable.Title>
             <DataTable.Title>Status</DataTable.Title>
@@ -66,6 +73,7 @@ const ResponderScreen = ({
           </DataTable.Header>
           {emergencies?.map((data, index) => (
             <DataTable.Row key={index}>
+              <DataTable.Cell>{index + 1}</DataTable.Cell>
               <DataTable.Cell>{`${data.user.first_name} ${data.user.last_name}`}</DataTable.Cell>
               <DataTable.Cell>{data.emergency_type.name}</DataTable.Cell>
               <DataTable.Cell>{data.emergency_status.name}</DataTable.Cell>

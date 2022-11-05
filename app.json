@@ -17,14 +17,14 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.altateknolohiya.onetapalertffemobile"
+      "bundleIdentifier": "com.gentech.onetapalertffemobile"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.altateknolohiya.onetapalertffemobile",
+      "package": "com.gentech.onetapalertffemobile",
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyBY02OUe-MycQkDSpFvc3w9Qrab5mA7uz4"
@@ -34,7 +34,7 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "owner": "altateknolohiya",
+    "owner": "gentech",
     "extra": {
       "eas": {
         "projectId": "f8d36238-4eff-4d71-8836-e4d197cf6263"
