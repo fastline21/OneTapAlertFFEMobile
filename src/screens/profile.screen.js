@@ -17,7 +17,7 @@ const ProfileScreen = ({ navigation, authState: { auth }, logoutUser }) => {
   };
 
   const handleShowImage = (file) => {
-    return `${REACT_APP_SERVER_URL}/captured-image/${file}`;
+    return `${REACT_APP_SERVER_URL}/public/captured-image/${file}`;
   };
 
   const handleLogout = () => {
@@ -39,7 +39,6 @@ const ProfileScreen = ({ navigation, authState: { auth }, logoutUser }) => {
         <View style={{ alignItems: 'center', marginBottom: 20 }}>
           <Avatar.Image
             size={200}
-            // source={require('../../assets/logo.png')}
             source={{ uri: handleShowImage(auth?.captured_image_selfie) }}
             style={{ backgroundColor: 'transparent' }}
           />
@@ -101,40 +100,6 @@ const ProfileScreen = ({ navigation, authState: { auth }, logoutUser }) => {
             <Text variant='labelLarge'>
               Email Address: {auth?.contact_person.email_address}
             </Text>
-          </View>
-        </View>
-        <View style={{ marginHorizontal: 20, marginBottom: 10 }}>
-          <Text variant='titleLarge'>ID</Text>
-        </View>
-        <View
-          style={{
-            marginHorizontal: 20,
-            borderColor: '#000',
-            borderWidth: 1,
-            padding: 20,
-          }}
-        >
-          <View
-            style={{
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              justifyContent: 'space-between',
-            }}
-          >
-            <View style={{ marginVertical: 5 }}>
-              <Text variant='labelLarge'>Front ID:</Text>
-              <Image
-                source={{ uri: handleShowImage(auth?.captured_image_front_id) }}
-                style={reviewPreviewImageStyle.inner}
-              />
-            </View>
-            <View style={{ marginVertical: 5 }}>
-              <Text variant='labelLarge'>Back ID:</Text>
-              <Image
-                source={{ uri: handleShowImage(auth?.captured_image_back_id) }}
-                style={reviewPreviewImageStyle.inner}
-              />
-            </View>
           </View>
         </View>
         <View

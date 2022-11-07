@@ -19,9 +19,9 @@ const setLoading = () => (dispatch) => {
 };
 
 export const getAllUsers = () => async (dispatch) => {
-  setLoading()(dispatch);
-
   try {
+    setLoading()(dispatch);
+
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -37,9 +37,9 @@ export const getAllUsers = () => async (dispatch) => {
 };
 
 export const submitRegister = (data) => async (dispatch) => {
-  setLoading()(dispatch);
-
   try {
+    setLoading()(dispatch);
+
     const config = {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -97,10 +97,10 @@ export const upgradeUserType = (data) => async (dispatch) => {
       },
     };
 
-    const { userID, ...rest } = data;
+    const { user_id, ...rest } = data;
 
     const res = await axios.patch(
-      `${REACT_APP_SERVER_URL}/api/users/${userID}`,
+      `${REACT_APP_SERVER_URL}/api/users/${user_id}`,
       rest,
       config
     );

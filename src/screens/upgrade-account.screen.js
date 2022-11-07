@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
-import { TextInput, Button, Alert } from 'react-native-paper';
+import { View, Text, Alert } from 'react-native';
+import { Button } from 'react-native-paper';
 import { Picker } from '@react-native-picker/picker';
 
 import Main from '../containers/main.screen';
@@ -51,6 +51,10 @@ const UpgradeAccountScreen = ({
     navigation.push('Profile');
   };
 
+  const handleBackAction = () => {
+    navigation.goBack();
+  };
+
   const renderUserTypes = () => {
     const render = [];
     for (const [key, value] of Object.entries(USER_TYPES)) {
@@ -69,19 +73,29 @@ const UpgradeAccountScreen = ({
 
   const handleSubmit = () => {
     upgradeUserType({
-      userID: auth.id,
+      user_id: auth.id,
       user_status_id: USER_STATUSES.PENDING,
-      ...formInput,
+      user_type_id: formInput.userTypeID,
     });
   };
 
   useEffect(() => {
+    setFormInput({
+      ...formInput,
+      userTypeID: renderUserTypes()[0].props.value,
+    });
+  }, []);
+
+  useEffect(() => {
     if (usersSuccess) {
       Alert.alert(
+        'Success',
         'You successfully upgrade your account. Please wait up to 7 days to approve your request.'
       );
 
       usersClearResponse();
+
+      navigation.navigate('Login');
     }
 
     if (usersError) {
@@ -100,8 +114,8 @@ const UpgradeAccountScreen = ({
       headerTitle={`Hello ${auth?.first_name} ${auth?.last_name}!`}
       logout={() => handleLogout()}
       profileAction={() => handleProfile()}
-      isRefresh={true}
-      getDataOnRefresh={() => handleOnRefresh()}
+      isBackAction={true}
+      backAction={() => handleBackAction()}
     >
       <View style={inputTextStyle.outer}>
         <Text style={{ marginHorizontal: 10 }}>User Type</Text>

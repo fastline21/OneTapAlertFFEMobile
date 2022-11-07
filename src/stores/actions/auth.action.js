@@ -21,9 +21,9 @@ const setLoading = () => (dispatch) => {
 };
 
 export const loginUser = (data) => async (dispatch) => {
-  setLoading()(dispatch);
-
   try {
+    setLoading()(dispatch);
+
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -52,9 +52,9 @@ export const loginUser = (data) => async (dispatch) => {
 };
 
 export const authUser = () => async (dispatch) => {
-  setLoading()(dispatch);
-
   try {
+    setLoading()(dispatch);
+
     await setToken('auth_token');
 
     const config = {

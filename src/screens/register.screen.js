@@ -136,9 +136,6 @@ const RegisterScreen = ({
           error={(data) => handleError(data)}
         />
       </View>
-      {/* <View>
-        <Text>{JSON.stringify(register)}</Text>
-      </View> */}
     </Main>
   );
 };

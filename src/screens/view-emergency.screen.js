@@ -35,7 +35,7 @@ const ViewEmergencyScreen = ({
   emergenciesClearResponse,
 }) => {
   const handleShowImage = (file) => {
-    return `${REACT_APP_SERVER_URL}/captured-image/${file}`;
+    return `${REACT_APP_SERVER_URL}/public/captured-image/${file}`;
   };
 
   const handleBackAction = () => {

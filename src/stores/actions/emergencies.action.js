@@ -28,9 +28,9 @@ export const emergenciesClearResponse = () => (dispatch) => {
 };
 
 export const submitEmergency = (data) => async (dispatch) => {
-  setLoading()(dispatch);
-
   try {
+    setLoading()(dispatch);
+
     await setToken('auth_token');
 
     const config = {
@@ -44,6 +44,8 @@ export const submitEmergency = (data) => async (dispatch) => {
       data,
       config
     );
+
+    console.log(`${REACT_APP_SERVER_URL}/api/emergencies`);
 
     dispatch({
       type: EMERGENCIES_SUCCESS,
@@ -129,9 +131,9 @@ export const clearEmergency = () => (dispatch) => {
 };
 
 export const changeEmergencyStatus = (data) => async (dispatch) => {
-  setLoading()(dispatch);
-
   try {
+    setLoading()(dispatch);
+
     await setToken('auth_token');
 
     const config = {

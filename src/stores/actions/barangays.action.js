@@ -1,6 +1,6 @@
-import axios from "axios";
+import axios from 'axios';
 
-import { REACT_APP_SERVER_URL } from "@env";
+import { REACT_APP_SERVER_URL } from '@env';
 
 import {
   GET_ALL_BARANGAYS,
@@ -8,7 +8,7 @@ import {
   BARANGAYS_SUCCESS,
   BARANGAYS_ERROR,
   BARANGAYS_CLEAR_RESPONSE,
-} from "../types/barangays.type";
+} from '../types/barangays.type';
 
 const setLoading = () => (dispatch) => {
   dispatch({
@@ -22,7 +22,7 @@ export const getAllBarangays = () => async (dispatch) => {
   try {
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     };
 
@@ -37,5 +37,9 @@ export const getAllBarangays = () => async (dispatch) => {
     });
   } catch (error) {
     console.error(error);
+    dispatch({
+      type: BARANGAYS_ERROR,
+      payload: error.response.data,
+    });
   }
 };

@@ -12,9 +12,9 @@ import { REACT_APP_SERVER_URL } from '@env';
 import { setToken } from '../../utilities/token';
 
 export const submitEmergencyProof = (data) => async (dispatch) => {
-  setLoading()(dispatch);
-
   try {
+    setLoading()(dispatch);
+
     await setToken('auth_token');
 
     const config = {
