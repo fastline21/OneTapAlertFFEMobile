@@ -2,6 +2,8 @@ import { SafeAreaView, Image } from 'react-native';
 
 import logoStyle from '../styles/logo.style';
 
+import loading from '../../assets/loading.gif';
+
 const Loading = () => {
   return (
     <SafeAreaView
@@ -13,11 +15,7 @@ const Loading = () => {
         justifyContent: 'center',
       }}
     >
-      <Image
-        style={logoStyle.inner}
-        fadeDuration={1000}
-        source={require('../../assets/loading.gif')}
-      />
+      <Image style={logoStyle.inner} fadeDuration={1000} source={loading} />
     </SafeAreaView>
   );
 };

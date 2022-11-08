@@ -81,7 +81,7 @@ const ResponderScreen = ({
       isRefresh={true}
       getDataOnRefresh={() => handleOnRefresh()}
     >
-      {emergencies.length > 0 ? (
+      {emergencies?.length > 0 ? (
         <View style={tableStyle.outer}>
           <DataTable style={tableStyle.inner}>
             <DataTable.Header>
