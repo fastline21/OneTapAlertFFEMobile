@@ -16,9 +16,9 @@ const setLoading = () => (dispatch) => {
 };
 
 export const submitIncidentReport = (data) => async (dispatch) => {
-  setLoading()(dispatch);
-
   try {
+    setLoading()(dispatch);
+
     const config = {
       headers: {
         'Content-Type': 'application/json',

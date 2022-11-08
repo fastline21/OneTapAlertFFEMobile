@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { View, Image, ActivityIndicator, Dimensions } from 'react-native';
-import { Text, Button } from 'react-native-paper';
-import { useEffect } from 'react';
+import { Text, Button, Avatar } from 'react-native-paper';
+import { useEffect, useState } from 'react';
 
 import Loading from '../containers/loading.screen';
 import Main from '../containers/main.screen';
@@ -20,6 +20,8 @@ import {
 
 import { EMERGENCY_STATUSES } from '../constants/emergency-statuses';
 
+import { getGeoLocation } from '../utilities/location';
+
 const ViewEmergencyScreen = ({
   navigation,
   emergenciesState: {
@@ -34,6 +36,7 @@ const ViewEmergencyScreen = ({
   getAllEmergenciesByStatus,
   emergenciesClearResponse,
 }) => {
+  const [address, setAddress] = useState(null);
   const handleShowImage = (file) => {
     return `${REACT_APP_SERVER_URL}/public/captured-image/${file}`;
   };
@@ -43,9 +46,15 @@ const ViewEmergencyScreen = ({
     clearEmergency();
   };
 
-  const handleCancel = () => {
-    navigation.goBack();
+  const handleNotRespond = () => {
+    changeEmergencyStatus({
+      emergency_id: emergency.id,
+      emergency_status_id: EMERGENCY_STATUSES.NOT_RESPONDED,
+      responder_id: auth.id,
+    });
+    getAllEmergenciesByStatus('pending');
     clearEmergency();
+    navigation.goBack();
   };
 
   const handleRespond = () => {
@@ -56,6 +65,21 @@ const ViewEmergencyScreen = ({
     });
   };
 
+  const geoLocation = async () => {
+    if (emergency) {
+      try {
+        const result = await getGeoLocation({
+          latitude: parseInt(emergency?.latitude),
+          longitude: parseInt(emergency?.longitude),
+        });
+
+        setAddress(result[0].name);
+      } catch (error) {
+        setAddress(emergency.user.address);
+      }
+    }
+  };
+
   useEffect(() => {
     if (emergenciesSuccess) {
       getAllEmergenciesByStatus('pending');
@@ -63,6 +87,10 @@ const ViewEmergencyScreen = ({
       emergenciesClearResponse();
     }
   }, [emergenciesSuccess]);
+
+  useEffect(() => {
+    geoLocation();
+  }, [emergency]);
 
   if (emergenciesLoading) {
     return <Loading />;
@@ -82,6 +110,13 @@ const ViewEmergencyScreen = ({
           padding: 20,
         }}
       >
+        <View style={{ alignItems: 'center', marginBottom: 20 }}>
+          <Avatar.Image
+            size={200}
+            source={{ uri: handleShowImage(auth?.captured_image_selfie) }}
+            style={{ backgroundColor: 'transparent' }}
+          />
+        </View>
         <View style={{ marginVertical: 5 }}>
           <Text variant='labelLarge'>
             Name: {emergency.user.first_name} {emergency.user.middle_initial}.{' '}
@@ -89,7 +124,7 @@ const ViewEmergencyScreen = ({
           </Text>
         </View>
         <View style={{ marginVertical: 5 }}>
-          <Text variant='labelLarge'>Address: {emergency.user.address}</Text>
+          <Text variant='labelLarge'>Address: {address}</Text>
         </View>
         <View style={{ marginVertical: 5 }}>
           <Text variant='labelLarge'>
@@ -125,8 +160,8 @@ const ViewEmergencyScreen = ({
           }}
         >
           <View style={{ marginHorizontal: 10 }}>
-            <Button onPress={() => handleCancel()} mode='contained'>
-              Cancel
+            <Button onPress={() => handleNotRespond()} mode='contained'>
+              Not Respond
             </Button>
           </View>
           <View style={{ marginHorizontal: 10 }}>

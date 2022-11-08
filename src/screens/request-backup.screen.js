@@ -52,8 +52,8 @@ const RequestBackupScreen = ({
 
   useEffect(() => {
     if (requestBackupSuccess) {
-      Alert.alert('Success', 'You successfully submit an incident report');
-      navigation.navigate('Responder');
+      Alert.alert('Success', 'You successfully submit a request backup');
+      navigation.goBack();
       requestBackupClearResponse();
     }
 

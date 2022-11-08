@@ -162,3 +162,41 @@ export const changeEmergencyStatus = (data) => async (dispatch) => {
     });
   }
 };
+
+export const getCurrentEmergencyByResponder = (data) => async (dispatch) => {
+  try {
+    setLoading()(dispatch);
+
+    await setToken('auth_token');
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    const { responder_id, emergency_status_id } = data;
+
+    const res = await axios.get(
+      `${REACT_APP_SERVER_URL}/api/emergencies/${responder_id}/status/${emergency_status_id}`,
+      config
+    );
+
+    const emergencies = res.data;
+    let emergency = null;
+    if (emergencies.length > 0) {
+      emergency = emergencies[0];
+    }
+
+    dispatch({
+      type: GET_EMERGENCY,
+      payload: emergency,
+    });
+  } catch (error) {
+    console.error(error);
+    dispatch({
+      type: EMERGENCIES_ERROR,
+      payload: error.response.data,
+    });
+  }
+};

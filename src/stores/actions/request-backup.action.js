@@ -16,9 +16,9 @@ const setLoading = () => (dispatch) => {
 };
 
 export const submitRequestBackup = (data) => async (dispatch) => {
-  setLoading()(dispatch);
-
   try {
+    setLoading()(dispatch);
+
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -30,8 +30,6 @@ export const submitRequestBackup = (data) => async (dispatch) => {
       data,
       config
     );
-
-    console.log('res.data', res.data);
 
     dispatch({
       type: REQUEST_BACKUP_SUCCESS,

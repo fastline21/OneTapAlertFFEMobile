@@ -34,10 +34,6 @@ const IncidentReportScreen = ({
   };
   const [formInput, setFormInput] = useState(initialFormInput);
 
-  const handleBackAction = () => {
-    navigation.goBack();
-  };
-
   const handleSubmit = () => {
     submitIncidentReport({
       user_id: auth.id,
@@ -72,11 +68,7 @@ const IncidentReportScreen = ({
   }
 
   return (
-    <Main
-      isBackAction={true}
-      headerTitle='Incident report'
-      backAction={() => handleBackAction()}
-    >
+    <Main isProfile={false} headerTitle='Incident report'>
       <View style={inputTextStyle.outer}>
         <TextInput
           label='No of Death'

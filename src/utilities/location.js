@@ -9,3 +9,7 @@ export const getLocation = async () => {
 
   return await Location.getCurrentPositionAsync({});
 };
+
+export const getGeoLocation = async ({ latitude, longitude }) => {
+  return await Location.reverseGeocodeAsync({ latitude, longitude });
+};

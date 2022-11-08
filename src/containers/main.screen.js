@@ -25,6 +25,7 @@ const Main = ({
   profileAction,
   isRefresh = false,
   getDataOnRefresh,
+  isProfile = true,
 }) => {
   const [contentBottom, setContentBottom] = useState(0);
   const [refreshing, setRefreshing] = useState(false);
@@ -61,12 +62,13 @@ const Main = ({
             {isBackAction ? (
               <Appbar.BackAction onPress={() => backAction()} />
             ) : (
-              <Appbar.Action
-                icon='account-circle'
-                onPress={() => profileAction()}
-              />
+              isProfile && (
+                <Appbar.Action
+                  icon='account-circle'
+                  onPress={() => profileAction()}
+                />
+              )
             )}
-
             <Appbar.Content title={headerTitle} />
             <Appbar.Action icon='logout' onPress={() => logout()} />
           </Appbar.Header>

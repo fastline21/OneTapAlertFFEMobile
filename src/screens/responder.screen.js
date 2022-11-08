@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { View } from 'react-native';
-import { DataTable, Button } from 'react-native-paper';
+import { DataTable, Button, Typograpy, Text } from 'react-native-paper';
 
 import Main from '../containers/main.screen';
 import Loading from '../containers/loading.screen';
@@ -11,17 +11,21 @@ import { logoutUser } from '../stores/actions/auth.action';
 import {
   getAllEmergenciesByStatus,
   getEmergency,
+  getCurrentEmergencyByResponder,
 } from '../stores/actions/emergencies.action';
 
 import tableStyle from '../styles/table.style';
 
+import { EMERGENCY_STATUSES } from '../constants/emergency-statuses';
+
 const ResponderScreen = ({
   navigation,
   authState: { auth },
-  emergenciesState: { emergencies, loading: emergenciesLoading },
+  emergenciesState: { emergencies, loading: emergenciesLoading, emergency },
   logoutUser,
   getAllEmergenciesByStatus,
   getEmergency,
+  getCurrentEmergencyByResponder,
 }) => {
   useEffect(() => {
     if (!auth) {
@@ -30,7 +34,7 @@ const ResponderScreen = ({
   }, [auth]);
 
   useEffect(() => {
-    getAllEmergenciesByStatus('pending');
+    handleOnRefresh();
   }, []);
 
   const handleLogout = () => {
@@ -39,7 +43,6 @@ const ResponderScreen = ({
 
   const handleViewEmergency = (emergencyID) => {
     getEmergency(emergencyID);
-    navigation.navigate('ViewEmergency');
   };
 
   const handleProfile = () => {
@@ -48,7 +51,23 @@ const ResponderScreen = ({
 
   const handleOnRefresh = () => {
     getAllEmergenciesByStatus('pending');
+    getCurrentEmergencyByResponder({
+      responder_id: auth.id,
+      emergency_status_id: EMERGENCY_STATUSES.ONGOING,
+    });
   };
+
+  useEffect(() => {
+    if (emergency) {
+      if (emergency.emergency_status_id === EMERGENCY_STATUSES.ONGOING) {
+        navigation.navigate('Map');
+      }
+
+      if (emergency.emergency_status_id === EMERGENCY_STATUSES.PENDING) {
+        navigation.navigate('ViewEmergency');
+      }
+    }
+  }, [emergency]);
 
   if (emergenciesLoading) {
     return <Loading />;
@@ -62,33 +81,39 @@ const ResponderScreen = ({
       isRefresh={true}
       getDataOnRefresh={() => handleOnRefresh()}
     >
-      <View style={tableStyle.outer}>
-        <DataTable style={tableStyle.inner}>
-          <DataTable.Header>
-            <DataTable.Title>#</DataTable.Title>
-            <DataTable.Title>Name</DataTable.Title>
-            <DataTable.Title>Disaster</DataTable.Title>
-            <DataTable.Title>Status</DataTable.Title>
-            <DataTable.Title>Action</DataTable.Title>
-          </DataTable.Header>
-          {emergencies?.map((data, index) => (
-            <DataTable.Row key={index}>
-              <DataTable.Cell>{index + 1}</DataTable.Cell>
-              <DataTable.Cell>{`${data.user.first_name} ${data.user.last_name}`}</DataTable.Cell>
-              <DataTable.Cell>{data.emergency_type.name}</DataTable.Cell>
-              <DataTable.Cell>{data.emergency_status.name}</DataTable.Cell>
-              <View style={{ justifyContent: 'center' }}>
-                <Button
-                  mode='contained'
-                  onPress={() => handleViewEmergency(data.id)}
-                >
-                  View
-                </Button>
-              </View>
-            </DataTable.Row>
-          ))}
-        </DataTable>
-      </View>
+      {emergencies.length > 0 ? (
+        <View style={tableStyle.outer}>
+          <DataTable style={tableStyle.inner}>
+            <DataTable.Header>
+              <DataTable.Title>#</DataTable.Title>
+              <DataTable.Title>Name</DataTable.Title>
+              <DataTable.Title>Disaster</DataTable.Title>
+              <DataTable.Title>Status</DataTable.Title>
+              <DataTable.Title>Action</DataTable.Title>
+            </DataTable.Header>
+            {emergencies?.map((data, index) => (
+              <DataTable.Row key={index}>
+                <DataTable.Cell>{index + 1}</DataTable.Cell>
+                <DataTable.Cell>{`${data.user.first_name} ${data.user.last_name}`}</DataTable.Cell>
+                <DataTable.Cell>{data.emergency_type.name}</DataTable.Cell>
+                <DataTable.Cell>{data.emergency_status.name}</DataTable.Cell>
+                <View style={{ justifyContent: 'center' }}>
+                  <Button
+                    mode='contained'
+                    onPress={() => handleViewEmergency(data.id)}
+                  >
+                    View
+                  </Button>
+                </View>
+              </DataTable.Row>
+            ))}
+          </DataTable>
+        </View>
+      ) : (
+        <View style={tableStyle.outer}>
+          <Text>No Pending Emergencies found</Text>
+        </View>
+      )}
     </Main>
   );
 };
@@ -99,6 +124,7 @@ ResponderScreen.propTypes = {
   logoutUser: PropTypes.func.isRequired,
   getAllEmergenciesByStatus: PropTypes.func.isRequired,
   getEmergency: PropTypes.func.isRequired,
+  getCurrentEmergencyByResponder: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -110,4 +136,5 @@ export default connect(mapStateToProps, {
   logoutUser,
   getAllEmergenciesByStatus,
   getEmergency,
+  getCurrentEmergencyByResponder,
 })(ResponderScreen);

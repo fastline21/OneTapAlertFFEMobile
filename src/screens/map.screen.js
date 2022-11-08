@@ -12,7 +12,9 @@ import Map from '../components/map';
 import {
   changeEmergencyStatus,
   emergenciesClearResponse,
+  clearEmergency,
 } from '../stores/actions/emergencies.action';
+import { logoutUser } from '../stores/actions/auth.action';
 
 import { EMERGENCY_STATUSES } from '../constants/emergency-statuses';
 
@@ -27,10 +29,12 @@ const MapScreen = ({
   },
   changeEmergencyStatus,
   emergenciesClearResponse,
+  clearEmergency,
+  logoutUser,
 }) => {
   const handleBackAction = () => {
-    navigation.goBack();
-    // clearEmergency();
+    navigation.navigate('Responder');
+    clearEmergency();
   };
 
   const handleDone = () => {
@@ -42,6 +46,10 @@ const MapScreen = ({
 
   const handleRequest = () => {
     navigation.navigate('RequestBackup');
+  };
+
+  const handleLogout = () => {
+    logoutUser();
   };
 
   useEffect(() => {
@@ -65,6 +73,7 @@ const MapScreen = ({
       isBackAction={true}
       headerTitle='Emergency Map'
       backAction={() => handleBackAction()}
+      logout={() => handleLogout()}
     >
       <View>
         <Map height={600} />
@@ -96,6 +105,8 @@ MapScreen.propTypes = {
   emergenciesState: PropTypes.object.isRequired,
   changeEmergencyStatus: PropTypes.func.isRequired,
   emergenciesClearResponse: PropTypes.func.isRequired,
+  clearEmergency: PropTypes.func.isRequired,
+  logoutUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -105,4 +116,6 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   changeEmergencyStatus,
   emergenciesClearResponse,
+  clearEmergency,
+  logoutUser,
 })(MapScreen);
